@@ -12,7 +12,7 @@ namespace FCG.Domain.Entities
         public string Descricao { get; set; }
         public JogoGeneroEnum Genero { get; set; }
         public decimal Preco { get; set; }
-        public decimal PreçoDesconto { get; set; }
+        public decimal? PrecoDesconto { get; set; }
         public DateTime DataLancamento { get; set; }
         public JogoStatusEnum StatusJogo { get; set; }
     
