@@ -15,6 +15,7 @@ namespace FCG.Domain.Entities
         public DateTime DataNascimento { get; set; }
         public UsuarioStatusEnum StatusConta { get; set; }
         public DateTime DataCriacao { get; set; }
+        public ICollection<BibliotecaUsuarioEntity> Biblioteca { get; set; } = new List<BibliotecaUsuarioEntity>();
     }
 
 }
