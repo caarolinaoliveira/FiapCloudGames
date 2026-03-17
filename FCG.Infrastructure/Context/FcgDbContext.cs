@@ -6,6 +6,8 @@ namespace FCG.Infrastructure.Context
     {
         public FcgDbContext(DbContextOptions<FcgDbContext> options) : base(options)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public DbSet<UsuarioEntity> Usuarios { get; set; }
@@ -19,5 +21,20 @@ namespace FCG.Infrastructure.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FcgDbContext).Assembly);
         }
         
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(e => e.Entity.GetType().GetProperty("DataCriacao") != null))
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("DataCriacao").CurrentValue = DateTime.UtcNow;
+                }
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property("DataCriacao").IsModified = false;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

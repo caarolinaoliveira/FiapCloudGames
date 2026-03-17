@@ -10,6 +10,7 @@ namespace FCG.Domain.Entities
         public decimal Preco { get; set; }
         public decimal? PrecoDesconto { get; set; }
         public DateTime DataLancamento { get; set; }
+        public DateTime DataCriacao{get;set;}
         public JogoStatusEnum StatusJogo { get; set; }
         public ICollection<BibliotecaUsuarioEntity> Bibliotecas { get; set; }
         public JogoEntity()
