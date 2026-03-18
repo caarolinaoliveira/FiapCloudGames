@@ -1,3 +1,7 @@
+using FCG.Domain.Entities;
+using FCG.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace FCG.Infrastructure.Context
 {

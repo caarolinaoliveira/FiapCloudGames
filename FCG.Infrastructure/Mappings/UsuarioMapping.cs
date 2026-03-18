@@ -1,3 +1,7 @@
+using FCG.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace FCG.Infrastructure.Mappings
 {
     public class UsuarioMapping : IEntityTypeConfiguration<UsuarioEntity>
