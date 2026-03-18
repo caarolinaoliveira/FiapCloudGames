@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FCG.Domain\FCG.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
