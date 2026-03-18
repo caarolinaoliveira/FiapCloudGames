@@ -1,8 +1,4 @@
-using System; 
-using FCG.Domain.Enums; 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
+using FCG.Domain.Enums;
 
 namespace FCG.Domain.Entities
 {
@@ -14,8 +10,12 @@ namespace FCG.Domain.Entities
         public decimal Preco { get; set; }
         public decimal? PrecoDesconto { get; set; }
         public DateTime DataLancamento { get; set; }
+        public DateTime DataCriacao{get;set;}
         public JogoStatusEnum StatusJogo { get; set; }
-    
+        public ICollection<BibliotecaUsuarioEntity> Bibliotecas { get; set; }
+        public JogoEntity()
+        {
+            Bibliotecas = new List<BibliotecaUsuarioEntity>();
+        }
     }
-    
 }
