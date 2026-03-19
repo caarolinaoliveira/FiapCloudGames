@@ -4,7 +4,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using FCG.Domain.Notificacoes;
 
-// FCG.Domain/Services/BaseDomainService.cs
 namespace FCG.Domain.Services
 {
     public abstract class BaseDomainService
