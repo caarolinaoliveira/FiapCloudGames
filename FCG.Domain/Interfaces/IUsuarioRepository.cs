@@ -1,7 +1,6 @@
 using FCG.Domain.Entities;
-using FCG.Domain.Interfaces;
 
-namespace FCG.Domain.interfaces
+namespace FCG.Domain.Interfaces
 
 {
     public interface IUsuarioRepository : IRepository<UsuarioEntity>
