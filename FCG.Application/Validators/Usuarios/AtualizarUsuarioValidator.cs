@@ -18,7 +18,7 @@ namespace FCG.Application.Validators.Usuarios
 
             RuleFor(x => x.DataNascimento)
                 .NotEmpty().WithMessage("Data de nascimento é obrigatória.")
-                .Must(data => DateTime.UtcNow.Year - data.Year >= 18)
+                .Must(data => DateTime.UtcNow.Year - data.Value.Year >= 18)
                 .WithMessage("Usuário deve ter ao menos 18 anos.");
         }
     }
