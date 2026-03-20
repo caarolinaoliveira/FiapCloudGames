@@ -23,5 +23,15 @@ namespace FCG.Infrastructure.Repository
         {
             return await DbSet.AnyAsync(b => b.UsuarioId == usuarioId && b.JogoId == jogoId);
         }
+
+        public async Task RemoverJogoDaBibliotecaAsync(Guid usuarioId, Guid jogoId)
+        {
+            var bibliotecaEntry = await DbSet.FirstOrDefaultAsync(b => b.UsuarioId == usuarioId && b.JogoId == jogoId);
+            if (bibliotecaEntry != null)
+            {
+                DbSet.Remove(bibliotecaEntry);
+                await SaveChangesAsync();
+            }
+        }
     }
 }

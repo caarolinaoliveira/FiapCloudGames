@@ -6,5 +6,7 @@ namespace FCG.Domain.Interfaces
     {
         Task<IEnumerable<BibliotecaUsuarioEntity>> ObterPorUsuarioIdAsync(Guid usuarioId);
         Task<bool> UsuarioPossuiJogoAsync(Guid usuarioId, Guid jogoId);
+        Task RemoverJogoDaBibliotecaAsync(Guid usuarioId, Guid jogoId);
+
     }
 }
