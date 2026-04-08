@@ -1,0 +1,16 @@
+using FCG.Application.Interfaces;
+using FCG.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+
+namespace FCG.Application.Configuration
+{
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            return services;
+        }
+    }
+}

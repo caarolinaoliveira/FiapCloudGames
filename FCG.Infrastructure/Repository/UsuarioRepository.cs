@@ -11,7 +11,6 @@ namespace FCG.Infrastructure.Repository
         public UsuarioRepository(FcgDbContext db) : base(db)
         {
         }
-
         public async Task<UsuarioEntity> ObterPorEmailAsync(string email)
         {
             return await DbSet.AsNoTracking()

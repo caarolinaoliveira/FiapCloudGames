@@ -5,8 +5,7 @@ namespace FCG.Application.Responses.Usuarios
         public Guid Id { get; init; }
         public string Nome { get; init; }
         public string Email { get; init; }
-        public string Role { get; init; }
-        public string StatusConta { get; init; }
+        public DateTime DataNascimento { get; init; }
         public DateTime DataCriacao { get; init; }
     }
 }

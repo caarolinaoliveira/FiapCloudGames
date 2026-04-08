@@ -23,7 +23,7 @@ namespace FCG.Infrastructure.Repository
             await SaveChangesAsync();
         }
 
-        public virtual async Task<TEntity> ObterPorIdAsync(Guid id)
+        public virtual async Task<TEntity?> ObterPorIdAsync(Guid id)
         {
             return await DbSet.FindAsync(id);
         }
