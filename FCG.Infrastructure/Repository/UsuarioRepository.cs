@@ -21,5 +21,11 @@ namespace FCG.Infrastructure.Repository
         {
             return await DbSet.AnyAsync(u => u.Email == email);
         }
+
+        public async Task DeletarAsync(UsuarioEntity usuario)
+        {
+            DbSet.Remove(usuario);
+            await SaveChangesAsync();
+        }
     }
 }

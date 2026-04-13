@@ -1,7 +1,6 @@
+using FCG.Domain.Interfaces;
 using FCG.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
-using FCG.Domain.Interfaces;
-
 
 namespace FCG.Infrastructure
 {

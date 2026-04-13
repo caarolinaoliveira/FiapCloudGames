@@ -2,6 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 public sealed record AlterarSenhaRequest
 {
+    [Required(ErrorMessage = "E-mail é obrigatório")]
+    [EmailAddress(ErrorMessage = "E-mail inválido")]
+    public string Email { get; init; }
+
     [Required(ErrorMessage = "Senha atual é obrigatória")]
     public string SenhaAtual { get; init; }
 
