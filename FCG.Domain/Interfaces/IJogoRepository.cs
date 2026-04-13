@@ -1,11 +1,10 @@
 using FCG.Domain.Entities;
-using FCG.Domain.Interfaces;
 using FCG.Domain.Enums;
 
-namespace FCG.Domain.interfaces
+namespace FCG.Domain.Interfaces
 
 {
-    public interface IJogoReposity : IRepository<JogoEntity>
+    public interface IJogoRepository : IRepository<JogoEntity>
     {
             Task<List<JogoEntity>> ObterPorGeneroAsync(JogoGeneroEnum genero);
             Task<List<JogoEntity>> ObterPorStatusAsync(JogoStatusEnum status);

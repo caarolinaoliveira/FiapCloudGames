@@ -1,14 +1,11 @@
-
-
 using FCG.Domain.Notificacoes;
 
 namespace FCG.Domain.Interfaces
 {
-    
-   public interface INotificador
+    public interface INotificador
     {
-         bool TemNotificacoes();
-        List<Notificacoes.Notificacao> ObterNotificacoes();
+        bool TemNotificacoes();
+        List<Notificacao> ObterNotificacoes();
         void Handler(Notificacao notificacao);
     }
 }
