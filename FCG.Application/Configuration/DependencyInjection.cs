@@ -10,6 +10,7 @@ namespace FCG.Application.Configuration
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IJogoService, JogoService>();
             return services;
         }
     }

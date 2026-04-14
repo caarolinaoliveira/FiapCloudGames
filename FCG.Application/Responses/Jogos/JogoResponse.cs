@@ -1,3 +1,5 @@
+using FCG.Domain.Enums; 
+
 namespace FCG.Application.Responses.Jogos
 {
     public sealed record JogoResponse
@@ -7,7 +9,7 @@ namespace FCG.Application.Responses.Jogos
         public string Descricao { get; init; }
         public decimal Preco { get; init; }
         public decimal? PrecoPromocional { get; init; }
-        public string Genero { get; init; }
+        public string? Genero { get; init; }
         public DateTime DataLancamento { get; init; }
         public DateTime DataCriacao { get; init; }
         public string StatusJogo { get; init; }

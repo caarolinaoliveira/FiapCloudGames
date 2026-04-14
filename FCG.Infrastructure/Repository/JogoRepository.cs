@@ -39,5 +39,16 @@ namespace FCG.Infrastructure.Repository
                 .Where(j => j.DataLancamento >= dataInicio && j.DataLancamento <= dataFim)
                 .ToListAsync();
         }
+        public async Task<JogoEntity?> ObterPorTituloAsync(string titulo)
+        {
+            return await DbSet.AsNoTracking()
+                .FirstOrDefaultAsync(j => j.Titulo == titulo);
+        }
+
+        public async Task DeletarAsync(JogoEntity jogo)
+        {
+            DbSet.Remove(jogo);
+            await SaveChangesAsync();
+        }
     }
 }

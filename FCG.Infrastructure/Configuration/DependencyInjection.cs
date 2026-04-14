@@ -9,6 +9,7 @@ namespace FCG.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IJogoRepository, JogoRepository>();
             return services;
         }
     }
