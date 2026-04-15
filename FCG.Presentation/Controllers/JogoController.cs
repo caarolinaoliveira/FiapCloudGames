@@ -1,9 +1,12 @@
 using FCG.Application.Requests.Jogos;
+using FCG.Application.Responses.Jogos;
 using FCG.Application.Services;
 using FCG.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text;
+
 
 namespace FCG.Presentation.Controllers
 {
@@ -18,13 +21,17 @@ namespace FCG.Presentation.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(List<JogoResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task <IActionResult> ObterTodosJogos()
         {
             var response = await _jogoService.ObterTodosAsync();
             return Ok(response);
         }
 
-        [HttpGet("{id: Guid}")]
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ObterPorId(Guid titulo)
         {
             var response = await _jogoService.ObterJogoPorIdAsync(titulo);
@@ -33,7 +40,10 @@ namespace FCG.Presentation.Controllers
 
             return Ok(response);
         }
+
         [HttpGet("{titulo}")]
+        [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ObterPorTitulo(string titulo)
         {
             var response = await _jogoService.ObterJogoPorTituloAsync(titulo);
@@ -44,6 +54,8 @@ namespace FCG.Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
+        [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CadastrarJogo(CriarJogoRequest request)
         {
             var response = await _jogoService.CriarJogoAsync(request);
@@ -51,7 +63,9 @@ namespace FCG.Presentation.Controllers
         }
 
 
-        [HttpPut("{id: Guid}")]
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AtualizarJogo(AtualizarJogoRequest request)
         {
             var response = await _jogoService.AtualizarJogoAsync(request);
@@ -59,6 +73,8 @@ namespace FCG.Presentation.Controllers
         }
 
         [HttpDelete("{titulo}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound) ]
         public async Task<IActionResult> DeletarJogo(string titulo)
         {
             await _jogoService.DeletarJogoAsync(titulo);
