@@ -1,4 +1,4 @@
-@FCG.Presentation_HostAddress = http://localhost:5101
+@FCGPresentation_HostAddress = http://localhost:5101
 
 GET {{FCG.Presentation_HostAddress}}/weatherforecast/
 Accept: application/json

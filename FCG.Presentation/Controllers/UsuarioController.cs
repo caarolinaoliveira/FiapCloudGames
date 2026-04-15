@@ -15,7 +15,7 @@ namespace FCG.Presentation.Controllers
             _usuarioService = usuarioService;
         }
 
-        [HttpPost]
+        [HttpPost("cadastrar")]
         public async Task<IActionResult> CadastrarUsuario([FromBody] CriarUsuarioRequest request)
         {
             var response = await _usuarioService.CriarAsync(request);

@@ -75,6 +75,58 @@ namespace  FCG.Application.Services
             };
         }
 
+        public async Task<List<JogoResponse>> ObterTodosAsync()
+        {
+            var jogos = await _jogoRepository.ObterTodosAsync();
+
+            return jogos.Select(jogo => new JogoResponse
+            {
+                Id = jogo.Id,
+                Titulo = jogo.Titulo,
+                Descricao = jogo.Descricao,
+                Genero = jogo.Genero.ToString(),
+                Preco = jogo.Preco,
+                DataLancamento = jogo.DataLancamento,
+                DataCriacao = jogo.DataCriacao
+            }).ToList();
+        }
+
+        public async Task<JogoResponse> ObterJogoPorIdAsync(Guid id)
+        {
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
+
+            if (jogo == null)
+                return null;
+
+            return new JogoResponse
+            {
+                Id = jogo.Id,
+                Titulo = jogo.Titulo,
+                Descricao = jogo.Descricao,
+                Genero = jogo.Genero.ToString(),
+                Preco = jogo.Preco,
+                DataLancamento = jogo.DataLancamento,
+                DataCriacao = jogo.DataCriacao
+            };
+        }
+        public async Task<JogoResponse> ObterJogoPorTituloAsync(string titulo)
+        {
+            var jogo = await _jogoRepository.ObterPorTituloAsync(titulo);
+
+            if (jogo == null)
+                return null;
+
+            return new JogoResponse
+            {
+                Id = jogo.Id,
+                Titulo = jogo.Titulo,
+                Descricao = jogo.Descricao,
+                Genero = jogo.Genero.ToString(),
+                Preco = jogo.Preco,
+                DataLancamento = jogo.DataLancamento,
+                DataCriacao = jogo.DataCriacao
+            };
+        }
         //mudar para deletar por id após implementar JWT
         public async Task DeletarJogoAsync(string titulo)
         {
