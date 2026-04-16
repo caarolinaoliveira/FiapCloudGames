@@ -1,0 +1,54 @@
+using FCG.Infrastructure.Context;
+using FCG.Domain.Entities;
+using FCG.Domain.Interfaces;
+using FCG.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+
+namespace FCG.Infrastructure.Repository
+{
+    public class JogoRepository : Repository<JogoEntity>, IJogoRepository
+    {
+        public JogoRepository(FcgDbContext db) : base(db)
+        {
+        }
+
+        public async Task<List<JogoEntity>> ObterPorGeneroAsync(JogoGeneroEnum genero)
+        {
+            return await DbSet.AsNoTracking()
+                .Where(j => j.Genero == genero)
+                .ToListAsync();
+        }
+
+        public async Task<List<JogoEntity>> ObterPorStatusAsync(JogoStatusEnum status)
+        {
+            return await DbSet.AsNoTracking()
+                .Where(j => j.StatusJogo == status)
+                .ToListAsync();
+        }
+
+        public async Task<List<JogoEntity>> ObterPorPrecoAsync(decimal precoMinimo, decimal precoMaximo)
+        {
+            return await DbSet.AsNoTracking()
+                .Where(j => j.Preco >= precoMinimo && j.Preco <= precoMaximo)
+                .ToListAsync();
+        }
+
+        public async Task<List<JogoEntity>> ObterPorDataLancamentoAsync(DateTime dataInicio, DateTime dataFim)
+        {
+            return await DbSet.AsNoTracking()
+                .Where(j => j.DataLancamento >= dataInicio && j.DataLancamento <= dataFim)
+                .ToListAsync();
+        }
+        public async Task<JogoEntity?> ObterPorTituloAsync(string titulo)
+        {
+            return await DbSet.AsNoTracking()
+                .FirstOrDefaultAsync(j => j.Titulo == titulo);
+        }
+
+        public async Task DeletarAsync(JogoEntity jogo)
+        {
+            DbSet.Remove(jogo);
+            await SaveChangesAsync();
+        }
+    }
+}

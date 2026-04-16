@@ -1,4 +1,4 @@
-
+using System.Linq.Expressions;
 using FCG.Domain.Entities;
 
 namespace FCG.Domain.Interfaces
@@ -11,7 +11,6 @@ namespace FCG.Domain.Interfaces
         Task AtualizarAsync(TEntity entity);
         Task RemoverAsync(Guid id);
         Task<int> SaveChangesAsync();
-        Task <IEnumerable<TEntity>> ObterPorFiltroAsync(Func<TEntity, bool> filtro);
-        
+        Task<IEnumerable<TEntity>> ObterPorFiltroAsync(Expression<Func<TEntity, bool>> filtro);
     }
 }
