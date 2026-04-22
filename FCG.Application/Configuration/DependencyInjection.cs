@@ -1,6 +1,7 @@
 using FCG.Application.Interfaces;
 using FCG.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
+using FCG.Application.Services.Autenticacao;
 
 
 namespace FCG.Application.Configuration
@@ -11,6 +12,8 @@ namespace FCG.Application.Configuration
         {
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IJogoService, JogoService>();
+            services.AddScoped<ITokenService, TokenService>();
+            
             return services;
         }
     }

@@ -24,7 +24,6 @@ namespace FCG.Presentation.Controllers
             var response = await _usuarioService.CriarAsync(request);
             return CreatedAtAction(nameof(CadastrarUsuario), new { id = response.Id }, response);
         }
-
         
         [HttpPut("alterar-senha/{email}")]
         [ProducesResponseType(typeof(UsuarioResponse), (int)HttpStatusCode.OK)]

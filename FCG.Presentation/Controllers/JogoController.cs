@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace FCG.Presentation.Controllers
@@ -20,6 +21,8 @@ namespace FCG.Presentation.Controllers
             _jogoService = jogoService;
         }
 
+
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(List<JogoResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
@@ -29,6 +32,7 @@ namespace FCG.Presentation.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -41,6 +45,7 @@ namespace FCG.Presentation.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet("{titulo}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -53,6 +58,7 @@ namespace FCG.Presentation.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("cadastrar")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -62,7 +68,7 @@ namespace FCG.Presentation.Controllers
             return CreatedAtAction(nameof(CadastrarJogo), new { id = response.Id }, response);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -72,11 +78,15 @@ namespace FCG.Presentation.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{titulo}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound) ]
         public async Task<IActionResult> DeletarJogo(string titulo)
         {
+            if (string.IsNullOrEmpty(titulo))
+                return BadRequest("O título do jogo é obrigatório.");
+            
             await _jogoService.DeletarJogoAsync(titulo);
             return NoContent();
         }
