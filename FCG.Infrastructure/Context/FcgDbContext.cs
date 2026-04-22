@@ -2,11 +2,13 @@ using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace FCG.Infrastructure.Context
 {
     
-    public class FcgDbContext : DbContext
+    public class FcgDbContext : IdentityDbContext
     {
         public FcgDbContext(DbContextOptions<FcgDbContext> options) : base(options)
         {

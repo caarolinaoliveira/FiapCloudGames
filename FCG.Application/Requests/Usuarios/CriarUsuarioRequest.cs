@@ -10,8 +10,13 @@ namespace FCG.Application.Requests.Usuarios
         public string Email { get; init; }
         [Required(ErrorMessage = "A senha é obrigatória.")]
         public string Senha { get; init; }
+
+        [Required(ErrorMessage = "A confirmação de senha é obrigatória.")]
+        [Compare("Senha", ErrorMessage = "A senha e a confirmação de senha devem ser iguais.")]
+        public string ConfirmacaoSenha { get; init; }
+
         [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
-        public DateTime DataNascimento { get; init; }
+        public DateOnly? DataNascimento { get; init; }
     }
 
 }

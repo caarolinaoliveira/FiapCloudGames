@@ -26,7 +26,7 @@ namespace FCG.Application.Services
                 Nome           = request.Nome,
                 Email          = request.Email,
                 SenhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha),                
-                DataNascimento = request.DataNascimento,
+                DataNascimento = request.DataNascimento?.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue,
                 DataCriacao    = DateTime.UtcNow
             };
 
@@ -67,5 +67,7 @@ namespace FCG.Application.Services
 
             await _usuarioRepository.DeletarAsync(usuario);
         }
+
+
     }
 }
