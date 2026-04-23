@@ -10,6 +10,7 @@ using FCG.Application.Configuration;
 using FCG.Application.Services.Autenticacao;
 using FCG.Infrastructure;
 using FCG.Infrastructure.Context;
+using FCG.Infrastructure.Identity;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FCG.Application.Validators.Jogos;
@@ -33,7 +34,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<EnumSchemaFilter>();
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Insira o token JWT desta maneira: Bearer {seu token}",
+        Description = "Insira o token JWT: ",
         Name = "Authorization",
         Scheme = "Bearer",
         BearerFormat = "JWT",
@@ -67,7 +68,7 @@ builder.Services.AddDbContext<FcgDbContext>(options =>
     ));
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<FcgDbContext>();
 

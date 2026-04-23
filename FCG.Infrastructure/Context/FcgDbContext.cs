@@ -1,16 +1,14 @@
-using FCG.Domain.Entities;
-using FCG.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using FCG.Domain.Entities;
+using FCG.Infrastructure.Identity;
 
 namespace FCG.Infrastructure.Context
 {
-    
-    public class FcgDbContext : IdentityDbContext
+    public class FcgDbContext  : IdentityDbContext<ApplicationUser>
     {
-        public FcgDbContext(DbContextOptions<FcgDbContext> options) : base(options)
+        public FcgDbContext(DbContextOptions<FcgDbContext> options)
+            : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
@@ -19,27 +17,31 @@ namespace FCG.Infrastructure.Context
         public DbSet<UsuarioEntity> Usuarios { get; set; }
         public DbSet<JogoEntity> Jogos { get; set; }
         public DbSet<BibliotecaUsuarioEntity> Bibliotecas { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(FcgDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(FcgDbContext).Assembly
+            );
         }
-        
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+
+        public override Task<int> SaveChangesAsync(
+            CancellationToken cancellationToken = default)
         {
-            foreach (var entry in ChangeTracker.Entries().Where(e => e.Entity.GetType().GetProperty("DataCriacao") != null))
+            foreach (var entry in ChangeTracker.Entries()
+                         .Where(e =>
+                             e.Entity.GetType()
+                                .GetProperty("DataCriacao") != null))
             {
                 if (entry.State == EntityState.Added)
-                {
                     entry.Property("DataCriacao").CurrentValue = DateTime.UtcNow;
-                }
+
                 if (entry.State == EntityState.Modified)
-                {
                     entry.Property("DataCriacao").IsModified = false;
-                }
             }
+
             return base.SaveChangesAsync(cancellationToken);
         }
     }

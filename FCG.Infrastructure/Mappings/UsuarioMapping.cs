@@ -23,14 +23,25 @@ namespace FCG.Infrastructure.Mappings
             builder.HasIndex(u => u.Email)
                 .IsUnique();
 
-            builder.Property(u => u.SenhaHash)
+            builder.Property(u => u.IdentityUserId)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(450); // tamanho padrão do Id do AspNetUsers
 
-            builder.Property(u => u.Role)
-                .IsRequired();
+            builder.HasIndex(u => u.IdentityUserId)
+                .IsUnique();
+
+            builder.Property(u => u.DataNascimento)
+                .IsRequired()
+                .HasColumnType("date") // DateOnly mapeia para date no SQL Server
+                .HasConversion(
+                    d => d.ToDateTime(TimeOnly.MinValue),
+                    d => DateOnly.FromDateTime(d)
+                );
 
             builder.Property(u => u.StatusConta)
+                .IsRequired();
+
+            builder.Property(u => u.DataCriacao)
                 .IsRequired();
 
             builder.HasMany(u => u.Biblioteca)

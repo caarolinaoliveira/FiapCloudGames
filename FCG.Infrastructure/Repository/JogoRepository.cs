@@ -3,6 +3,7 @@ using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using FCG.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace FCG.Infrastructure.Repository
 {
@@ -39,10 +40,24 @@ namespace FCG.Infrastructure.Repository
                 .Where(j => j.DataLancamento >= dataInicio && j.DataLancamento <= dataFim)
                 .ToListAsync();
         }
-        public async Task<JogoEntity?> ObterPorTituloAsync(string titulo)
+        // public async Task<JogoEntity?> ObterPorTituloAsync(string titulo)
+        // {
+        //     return await DbSet.AsNoTracking()
+        //         .FirstOrDefaultAsync(j => j.Titulo == titulo);
+        // }
+
+        public async Task<List<JogoEntity>> ObterPorTituloAsync(string titulo)
+        {
+            var jogos = await DbSet.AsNoTracking().ToListAsync();
+            
+            var regex = new Regex(Regex.Escape(titulo), RegexOptions.IgnoreCase);
+            
+            return jogos.Where(j => regex.IsMatch(j.Titulo)).ToList();
+        }
+        public async Task<JogoEntity?> ObterPorIdAsync(Guid id)
         {
             return await DbSet.AsNoTracking()
-                .FirstOrDefaultAsync(j => j.Titulo == titulo);
+                .FirstOrDefaultAsync(j => j.Id == id);
         }
 
         public async Task DeletarAsync(JogoEntity jogo)
