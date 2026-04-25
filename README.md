@@ -127,7 +127,7 @@ FCG/
 
 ---
 
-## Decisoes de arquitetura
+## Decisões de arquitetura
 
 - ASP.NET Identity separado da entidade de dominio Usuario, vinculados por IdentityUserId
 - Repositorio generico base (Repository<TEntity>) com implementacoes especificas por entidade
@@ -138,7 +138,7 @@ FCG/
 
 ---
 
-## Convencoes de commit
+## Convenções de commit
 
 O projeto utiliza commits convencionais:
 
