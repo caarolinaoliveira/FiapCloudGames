@@ -36,9 +36,9 @@ namespace FCG.Presentation.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> ObterPorId(Guid titulo)
+        public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var response = await _jogoService.ObterJogoPorIdAsync(titulo);
+            var response = await _jogoService.ObterJogoPorIdAsync(id);
             if (response == null)
                 return NotFound();
 
@@ -72,22 +72,22 @@ namespace FCG.Presentation.Controllers
         [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AtualizarJogo(AtualizarJogoRequest request)
+        public async Task<IActionResult> AtualizarJogo(Guid id, AtualizarJogoRequest request)
         {
-            var response = await _jogoService.AtualizarJogoAsync(request);
+            var response = await _jogoService.AtualizarJogoAsync(id, request);
             return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{titulo}")]
+        [HttpDelete("{id:guid}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound) ]
-        public async Task<IActionResult> DeletarJogo(string titulo)
+        public async Task<IActionResult> DeletarJogo(Guid id)
         {
-            if (string.IsNullOrEmpty(titulo))
+            if (id == Guid.Empty)
                 return BadRequest("O título do jogo é obrigatório.");
             
-            await _jogoService.DeletarJogoAsync(titulo);
+            await _jogoService.DeletarJogoAsync(id);
             return NoContent();
         }
     }

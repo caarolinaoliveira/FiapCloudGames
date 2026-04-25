@@ -11,6 +11,6 @@ namespace FCG.Application.Requests.Usuarios
         [EmailAddress(ErrorMessage = "Email inválido")]
         public string? Email { get; init; }
 
-        public DateTime? DataNascimento { get; init; }
+        public DateOnly? DataNascimento { get; init; }
     }
 }

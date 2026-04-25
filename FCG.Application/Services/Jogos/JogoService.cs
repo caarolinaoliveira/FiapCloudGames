@@ -47,10 +47,9 @@ namespace  FCG.Application.Services
             };
         }
 
-    // TODO: substituir por Guid usuarioId após implementar JWT
-        public async Task<JogoResponse> AtualizarJogoAsync(AtualizarJogoRequest request)
+        public async Task<JogoResponse> AtualizarJogoAsync(Guid id, AtualizarJogoRequest request)
         {
-            var jogo = await _jogoRepository.ObterPorTituloAsync(request.Titulo);
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo == null)
                 throw new NotFoundException("Jogo não encontrado.");
@@ -109,14 +108,11 @@ namespace  FCG.Application.Services
                 DataCriacao = jogo.DataCriacao
             };
         }
-        public async Task<JogoResponse> ObterJogoPorTituloAsync(string titulo)
+        public async Task<List<JogoResponse>> ObterJogoPorTituloAsync(string titulo)
         {
-            var jogo = await _jogoRepository.ObterPorTituloAsync(titulo);
+            var jogos = await _jogoRepository.ObterPorTituloAsync(titulo);
 
-            if (jogo == null)
-                return null;
-
-            return new JogoResponse
+            return jogos.Select(jogo => new JogoResponse
             {
                 Id = jogo.Id,
                 Titulo = jogo.Titulo,
@@ -125,12 +121,11 @@ namespace  FCG.Application.Services
                 Preco = jogo.Preco,
                 DataLancamento = jogo.DataLancamento,
                 DataCriacao = jogo.DataCriacao
-            };
+            }).ToList();
         }
-        //mudar para deletar por id após implementar JWT
-        public async Task DeletarJogoAsync(string titulo)
+        public async Task DeletarJogoAsync(Guid id)
         {
-            var jogo = await _jogoRepository.ObterPorTituloAsync(titulo);
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo == null)
                 throw new NotFoundException("Jogo não encontrado.");

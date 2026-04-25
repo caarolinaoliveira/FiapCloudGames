@@ -1,48 +1,103 @@
 using FCG.Application.Interfaces;
 using FCG.Application.Requests.Usuarios;
-using FCG.Application.Responses.Usuarios;
+using FCG.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace FCG.Presentation.Controllers
 {
-    [Route("api/usuarios")]
     public class UsuarioController : MainController
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITokenService _tokenService;
         private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public UsuarioController(
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            ITokenService tokenService,
+            IUsuarioService usuarioService)
         {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _tokenService = tokenService;
             _usuarioService = usuarioService;
         }
 
-        [HttpPost("cadastrar")]
-        [ProducesResponseType(typeof(UsuarioResponse), (int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CadastrarUsuario([FromBody] CriarUsuarioRequest request)
-        {  
-            var response = await _usuarioService.CriarAsync(request);
-            return CreatedAtAction(nameof(CadastrarUsuario), new { id = response.Id }, response);
-        }
-        
-        [HttpPut("alterar-senha/{email}")]
-        [ProducesResponseType(typeof(UsuarioResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AtualizarSenha([FromRoute] string email, [FromBody] AlterarSenhaRequest request)
+        [HttpPost("api/usuarios/registrar")]
+        public async Task<IActionResult> Registrar([FromBody] CriarUsuarioRequest request)
         {
-            await _usuarioService.AtualizarSenhaAsync(request);
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var identityUser = new ApplicationUser
+            {
+                UserName = request.Email,
+                Email = request.Email,
+                EmailConfirmed = true
+            };
+
+            var identityResult = await _userManager.CreateAsync(identityUser, request.Senha);
+            if (!identityResult.Succeeded)
+                return BadRequest(identityResult.Errors);
+
+            await _userManager.AddToRoleAsync(identityUser, "Usuario");
+
+            await _usuarioService.CriarAsync(identityUser.Id, request);
+
+            var roles = await _userManager.GetRolesAsync(identityUser);
+            var token = _tokenService.GerarToken(identityUser.Email!, roles);
+
+            return Ok(token);
         }
 
-        [HttpDelete("{email}")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)] 
-        public async Task<IActionResult> DeletarUsuario([FromRoute] string email)
+        [HttpPost("api/usuarios/login")]
+        public async Task<IActionResult> Login([FromBody] LoginUsuarioRequest request)
         {
-            await _usuarioService.DeletarUsuarioAsync(email);
-            return NoContent();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = await _signInManager.PasswordSignInAsync(
+                request.Email,
+                request.Senha,
+                isPersistent: false,
+                lockoutOnFailure: false
+            );
+
+            if (!response.Succeeded)
+                return Unauthorized("Usuário ou senha inválidos.");
+
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+                return Unauthorized();
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _tokenService.GerarToken(user.Email!, roles);
+
+            return Ok(token);
+        }
+
+        [HttpPost("api/usuarios/alterar-senha")]
+        public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenhaRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var usuario = await _userManager.FindByEmailAsync(request.Email);
+            if (usuario == null)
+                return NotFound("Usuário não encontrado.");
+
+            var result = await _userManager.ChangePasswordAsync(
+                usuario,
+                request.SenhaAtual,
+                request.NovaSenha
+            );
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok("Senha alterada com sucesso.");
         }
     }
 }

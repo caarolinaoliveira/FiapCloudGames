@@ -13,7 +13,7 @@ namespace FCG.Application.Configuration
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IJogoService, JogoService>();
             services.AddScoped<ITokenService, TokenService>();
-            
+
             return services;
         }
     }
