@@ -77,7 +77,8 @@ namespace FCG.Presentation.Controllers
 
             return Ok(token);
         }
-
+        
+        [Authorize]
         [HttpPost("api/usuarios/alterar-senha")]
         public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenhaRequest request)
         {

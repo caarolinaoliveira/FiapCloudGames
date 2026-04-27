@@ -3,10 +3,8 @@ using FCG.Application.Responses.Jogos;
 using FCG.Application.Services;
 using FCG.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 
 namespace FCG.Presentation.Controllers
@@ -46,7 +44,7 @@ namespace FCG.Presentation.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{titulo}")]
+        [HttpGet("buscar/{titulo}")]
         [ProducesResponseType(typeof(JogoResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ObterPorTitulo(string titulo)
