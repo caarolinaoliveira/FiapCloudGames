@@ -3,6 +3,7 @@ using FCG.Application.Requests.Usuarios;
 using FCG.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FCG.Presentation.Controllers
 {

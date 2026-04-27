@@ -104,7 +104,7 @@ namespace  FCG.Application.Services
             var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo == null)
-                return null;
+                throw new NotFoundException("Jogo não encontrado.");
 
             return new JogoResponse
             {
@@ -117,21 +117,6 @@ namespace  FCG.Application.Services
                 DataCriacao = jogo.DataCriacao
             };
         }
-        // public async Task<List<JogoResponse>> ObterJogoPorTituloAsync(string titulo)
-        // {
-        //     var jogos = await _jogoRepository.ObterPorTituloAsync(titulo);
-
-        //     return jogos.Select(jogo => new JogoResponse
-        //     {
-        //         Id = jogo.Id,
-        //         Titulo = jogo.Titulo,
-        //         Descricao = jogo.Descricao,
-        //         Genero = jogo.Genero.ToString(),
-        //         Preco = jogo.Preco,
-        //         DataLancamento = jogo.DataLancamento,
-        //         DataCriacao = jogo.DataCriacao
-        //     }).ToList();
-        // }
 
         public async Task<JogoResponse> ObterJogoPorTituloAsync(string titulo)
         {
