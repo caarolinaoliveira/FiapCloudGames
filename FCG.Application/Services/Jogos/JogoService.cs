@@ -51,11 +51,20 @@ namespace  FCG.Application.Services
         {
             var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
-            if (jogo == null)
+            if (jogo is null)
                 throw new NotFoundException("Jogo não encontrado.");
 
-            jogo.Titulo = request.Titulo;
-            jogo.Descricao = request.Descricao;
+            if (request.Titulo is not null)
+                jogo.Titulo = request.Titulo;
+
+            if (request.Descricao is not null)
+                jogo.Descricao = request.Descricao;
+
+            if (request.Preco.HasValue)
+                jogo.Preco = request.Preco.Value;
+
+            if (request.DataLancamento.HasValue)
+                jogo.DataLancamento = request.DataLancamento.Value;
 
             if (request.Genero.HasValue)
                 jogo.Genero = request.Genero.Value;
@@ -108,11 +117,30 @@ namespace  FCG.Application.Services
                 DataCriacao = jogo.DataCriacao
             };
         }
-        public async Task<List<JogoResponse>> ObterJogoPorTituloAsync(string titulo)
-        {
-            var jogos = await _jogoRepository.ObterPorTituloAsync(titulo);
+        // public async Task<List<JogoResponse>> ObterJogoPorTituloAsync(string titulo)
+        // {
+        //     var jogos = await _jogoRepository.ObterPorTituloAsync(titulo);
 
-            return jogos.Select(jogo => new JogoResponse
+        //     return jogos.Select(jogo => new JogoResponse
+        //     {
+        //         Id = jogo.Id,
+        //         Titulo = jogo.Titulo,
+        //         Descricao = jogo.Descricao,
+        //         Genero = jogo.Genero.ToString(),
+        //         Preco = jogo.Preco,
+        //         DataLancamento = jogo.DataLancamento,
+        //         DataCriacao = jogo.DataCriacao
+        //     }).ToList();
+        // }
+
+        public async Task<JogoResponse> ObterJogoPorTituloAsync(string titulo)
+        {
+            var jogo = await _jogoRepository.ObterPorTituloAsync(titulo);
+
+            if (jogo == null)
+                return null;
+
+            return new JogoResponse
             {
                 Id = jogo.Id,
                 Titulo = jogo.Titulo,
@@ -121,8 +149,10 @@ namespace  FCG.Application.Services
                 Preco = jogo.Preco,
                 DataLancamento = jogo.DataLancamento,
                 DataCriacao = jogo.DataCriacao
-            }).ToList();
+            };
         }
+
+
         public async Task DeletarJogoAsync(Guid id)
         {
             var jogo = await _jogoRepository.ObterPorIdAsync(id);
