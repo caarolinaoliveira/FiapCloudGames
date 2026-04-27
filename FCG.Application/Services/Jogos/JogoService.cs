@@ -123,8 +123,8 @@ namespace  FCG.Application.Services
             var jogo = await _jogoRepository.ObterPorTituloAsync(titulo);
 
             if (jogo == null)
-                return null;
-
+                throw new NotFoundException("Jogo não encontrado.");
+                
             return new JogoResponse
             {
                 Id = jogo.Id,
