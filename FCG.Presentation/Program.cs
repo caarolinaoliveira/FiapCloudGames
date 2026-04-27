@@ -1,6 +1,7 @@
 using FCG.Application.Configuration;
 using FCG.Infrastructure;
 using FCG.Presentation;
+using FCG.Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -154,19 +154,23 @@ public class JogoServiceTests
         }
 
         [Fact]
-        public async Task BuscarJogoPorTitulo_jogoNaoExistente_DeveRetornarNull()
-        { 
-            //Arrange
-            var titulo = "Jogo Inexistente";
-            _jogoRepositoryMock
-                .Setup(r => r.ObterPorTituloAsync(titulo))
-                .ReturnsAsync((JogoEntity)null);
-            
-            //Act
-            var result = await _service.ObterJogoPorTituloAsync(titulo);
-            //Assert
-            result.Should().BeNull();
+        public async Task ObterJogoPorId_JogoNaoExistente_DeveLancarNotFoundException()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
 
+            _jogoRepositoryMock
+                .Setup(r => r.ObterPorIdAsync(id))
+                .ReturnsAsync((JogoEntity)null);
+
+            // Act
+            Func<Task> act = async () =>
+                await _service.ObterJogoPorIdAsync(id);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<NotFoundException>()
+                .WithMessage("Jogo não encontrado.");
         }
         [Fact]
         public async Task AtualizarJogoAsync_AtualizacaoParcial_DeveAtualizarApenasCamposInformados()

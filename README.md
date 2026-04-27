@@ -3,7 +3,9 @@
 Plataforma de biblioteca de jogos desenvolvida como projeto de pós-graduação em Arquitetura de Sistemas .NET na FIAP. Permite que usuários se cadastrem, façam login e gerenciem sua biblioteca de jogos.
 
 ---
-
+## Miro 
+https://miro.com/app/board/uXjVGtWLQwU=/
+---
 ## Tecnologias
 
 - .NET 8
