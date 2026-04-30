@@ -4,7 +4,7 @@ Plataforma de biblioteca de jogos desenvolvida como projeto de pós-graduação 
 
 ---
 ## Miro 
-https://miro.com/app/board/uXjVGtWLQwU=/
+https://miro.com/welcomeonboard/eHAxT3V6cTNmS1psMThHZzNWdmZ5T0F4bC9pdmZ6T0thOEVjT2RrcHBmVk4weGFXbTdRWFdJSUtTMVBPK01XU0c5cU9SeE93TSt1WFlOdkpFcTZQb0VOTElodm5YL1NJbkx1cCthSlRiU0YyRmdSUUJ4dkJwUnRPc1c4NU4yVWhhWWluRVAxeXRuUUgwWDl3Mk1qRGVRPT0hdjE=?share_link_id=907530410148
 ---
 ## Tecnologias
 
